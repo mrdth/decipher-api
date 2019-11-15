@@ -1,0 +1,40 @@
+{
+    "name": "mrdth/decipher-api",
+    "description": "PHP Wrapper for the FocusVision Decipher REST Api ",
+    "authors": [
+        {
+            "name": "mrdth",
+            "email": "mrdth@zeventien.org"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "^6.0",
+        "kint-php/kint": "^3.1"
+    },
+    "autoload": {
+            "psr-4": {
+                "MrDth\\DecipherApi\\": "src/"
+            }
+        },
+        "autoload-dev": {
+            "psr-4": {
+                "MrDth\\DecipherApi\\Test\\": "tests/"
+            }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MrDth\\DecipherApi\\DecipherApiServiceProvider"
+            ],
+            "aliases": {
+                "Decipher": "MrDth\\DecipherApi\\DecipherFacade"
+            }
+        }
+    }
+
+}
