@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Test cases for MrDth\DecipherApi\Factories\Client
+ *
+ * @tags
+ * @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+ */
+
 namespace MrDth\DecipherApi\Test;
 
 use MrDth\DecipherApi\Exceptions\MissingApiKeyException;

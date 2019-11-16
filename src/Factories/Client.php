@@ -30,4 +30,24 @@ class Client
             throw new MissingApiKeyException();
         }
     }
+
+    public function get($endpoint)
+    {
+        return $this->client->get($endpoint);
+    }
+
+    public function post($endpoint, $options)
+    {
+        return $this->client->post($endpoint, $options);
+    }
+
+    public function put($endpoint, $options)
+    {
+        return $this->client->put($endpoint, $options);
+    }
+
+    public function patch($endpoint, $options)
+    {
+        return $this->client->patch($endpoint, $options);
+    }
 }
