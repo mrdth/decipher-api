@@ -2,7 +2,7 @@
 
 namespace MrDth\DecipherApi\Factories\Api;
 
-use GuzzleHttp\ClientInterface;
+use MrDth\DecipherApi\Factories\Client;
 
 class SurveyList
 {
@@ -18,7 +18,7 @@ class SurveyList
      *
      * @param $client
      */
-    public function __construct(ClientInterface $client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }

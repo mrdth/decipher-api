@@ -2,7 +2,7 @@
 
 namespace MrDth\DecipherApi\Factories\Api;
 
-use GuzzleHttp\ClientInterface;
+use MrDth\DecipherApi\Factories\Client;
 
 class SurveyStructure
 {
@@ -13,7 +13,7 @@ class SurveyStructure
     /**
      * Inject HTTP Client
      */
-    public function __construct(ClientInterface $client, $server_directory, $survey_id)
+    public function __construct(Client $client, $server_directory, $survey_id)
     {
         $this->client = $client;
         $this->survey_id = $survey_id;

@@ -2,10 +2,10 @@
 
 namespace MrDth\DecipherApi;
 
-use GuzzleHttp\ClientInterface;
 use MrDth\DecipherApi\Factories\Api\SurveyData;
 use MrDth\DecipherApi\Factories\Api\SurveyList;
 use MrDth\DecipherApi\Factories\Api\SurveyStructure;
+use MrDth\DecipherApi\Factories\Client;
 
 class Decipher
 {
@@ -30,7 +30,7 @@ class Decipher
         $this->survey_id = $survey_id;
     }
 
-    public function __construct(ClientInterface $client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
 
