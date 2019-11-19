@@ -20,11 +20,31 @@ class SurveyData
         $this->server_directory = $server_directory;
     }
 
-    public function fetch(array $fields, string $return_format)
+    public function get(array $fields, string $return_format)
     {
-        $response = $this->client->get($this->buildEndpoint($fields, $return_format));
+        $endpoint = $this->buildEndpoint($fields, $return_format);
 
-        return $response->getBody();
+        // As URLs have a max length, if the endpoint is large, defer to a POST instead
+        if (count($endpoint) > 800) {
+            return $this->post($fields, $return_format);
+        }
+
+        $response = $this->client->get($endpoint);
+
+        return (string) $response->getBody();
+    }
+
+    public function post(array $fields, string $return_format)
+    {
+        $response = $this->client->post("surveys/survey/data", [
+            'json' => [
+                'survey' => "$this->server_directory/$this->survey_id",
+                'fields' => $fields,
+                'format' => $return_format
+            ]
+        ]);
+
+        return (string) $response->getBody();
     }
 
     protected function buildEndpoint($fields, $format)
@@ -32,7 +52,7 @@ class SurveyData
         $endpoint = "surveys/$this->server_directory/$this->survey_id/data?format=$format";
 
         if (count($fields)) {
-            $endpoint .= '?fields=' . implode(',', $fields);
+            $endpoint .= '&fields=' . implode(',', $fields);
         }
 
         return $endpoint;

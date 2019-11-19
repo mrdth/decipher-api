@@ -13,7 +13,6 @@ Install with composer
 Add two new env vars:
 
 - DECIPHER_API_URI_BASE - base URI for the decipher api (E.g. https://v2.decipherinc.com/api/v1/)
-- DECIPHER_SERVER_DIRECTORY - Directory where your projects are stored on the decipher server
 - DECIPHER_API_KEY - API key for the application
 
 The package will be auto-registered, and can be accessed via it's facade.

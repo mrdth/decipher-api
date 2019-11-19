@@ -25,8 +25,8 @@ class SurveyList
 
     public function fetch()
     {
-        $response = $this->client->get('/rh/companies/all/surveys');
+        $response = $this->client->get('rh/companies/all/surveys');
 
-        return json_decode($response->getBody());
+        return (string) $response->getBody();
     }
 }
