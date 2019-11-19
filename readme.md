@@ -28,7 +28,7 @@ $api_key = 'OBVIOUSLYFAKEAPIKEY';
 $directory = 'selfserve/99d';
 $survey_id = '12345';
 
-$client = new Client();
+$client = new Client($api_uri, $api_key);
 $decipher = new Decipher($client, $api_uri, $api_key);
 
 
@@ -39,10 +39,10 @@ All calls to the API via the wrapper should be carried out inside a try - catch 
 The wrapper does not deal with any Exceptions thrown by the underlying Guzzle client.
 
 ```php
-$decipher->setServerDirectory($directory)->setSurvey($survey_id);
+$decipher->setServerDirectory($directory)->setSurveyId($survey_id);
 
 try {
-    $survey_structure = $decipher->getDataMap('json');
+    $survey_structure = $decipher->getSurveyStructure('json');
   
     // Do whatever with $survey object
 } catch (\GuzzleHttp\Exception\RequestException $e) {
@@ -52,3 +52,8 @@ try {
 
 #### Methods exposed via the wrapper
 
+- getSurveyList() - Get a list of all surveys available with the current API key.
+- setServerDirectory(string $directory) - Directory where your projects are stored on the decipher server
+- setSurveyId(int $id) - Set the ID of the current survey to work with.
+- getSurveyStructure(string $format) - Retrieve the structure of available questions for a survey, returning htem in the specified format.  Valid formats are: html, json, text, tab
+- getSurveyData(array $fields) - Retrieve the responses to the question IDs passed in $fields from Decipher.  Note: uuid & status fields will always be returned. To retrieve ALL questions, pass ['all'] 

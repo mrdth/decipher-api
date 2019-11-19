@@ -2,6 +2,8 @@
 
 namespace MrDth\DecipherApi;
 
+use MrDth\DecipherApi\Exceptions\ServerDirectoryNotSetException;
+use MrDth\DecipherApi\Exceptions\SurveyIdNotSetException;
 use MrDth\DecipherApi\Factories\Api\SurveyData;
 use MrDth\DecipherApi\Factories\Api\SurveyList;
 use MrDth\DecipherApi\Factories\Api\SurveyStructure;
@@ -14,20 +16,17 @@ class Decipher
     protected $server_directory;
     protected $survey_id;
 
-    /**
-     * @param string $server_directory
-     */
-    public function setServerDirectory(string $server_directory): void
+
+    public function setServerDirectory(string $server_directory)
     {
         $this->server_directory = $server_directory;
+        return $this;
     }
 
-    /**
-     * @param int $survey_id
-     */
-    public function setSurveyId(int $survey_id): void
+    public function setSurveyId(int $survey_id)
     {
         $this->survey_id = $survey_id;
+        return $this;
     }
 
     public function __construct(Client $client)
@@ -41,20 +40,24 @@ class Decipher
         ];
     }
 
-    public function getSurveyList(): SurveyList
+    public function getSurveyList()
     {
         return (new SurveyList($this->client))->fetch();
     }
 
     public function getSurveyData(array $fields, string $return_format)
     {
+        $this->checkRequiredPropertiesExist();
+
         $client = new SurveyData($this->client, $this->server_directory, $this->survey_id);
 
-        return $client->fetch($this->prepareFields($fields), $return_format);
+        return $client->get($this->prepareFields($fields), $return_format);
     }
 
     public function getSurveyStructure($format = 'json')
     {
+        $this->checkRequiredPropertiesExist();
+
         $client = new SurveyStructure($this->client, $this->server_directory, $this->survey_id);
 
         return $client->fetch($format);
@@ -71,5 +74,16 @@ class Decipher
         }
 
         return $fields;
+    }
+
+    protected function checkRequiredPropertiesExist()
+    {
+        if (!$this->survey_id) {
+            throw new SurveyIdNotSetException();
+        }
+
+        if (!$this->server_directory) {
+            throw new ServerDirectoryNotSetException();
+        }
     }
 }
