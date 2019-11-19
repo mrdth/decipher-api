@@ -2,10 +2,19 @@
 
 namespace MrDth\DecipherApi\Factories\Api;
 
+use MrDth\DecipherApi\Exceptions\InvalidReturnFormatException;
 use MrDth\DecipherApi\Factories\Client;
 
 class SurveyStructure
 {
+    private const RETURN_FORMATS = [
+        'json',
+        'html',
+        'sss',
+        'text',
+        'tab'
+    ];
+
     private $client;
     private $survey_id;
     private $server_directory;
@@ -22,13 +31,24 @@ class SurveyStructure
 
     public function fetch(string $return_format)
     {
+        $this->validateReturnFormat($return_format);
+
         $response = $this->client->get($this->buildEndpoint($return_format));
 
-        return $response->getBody();
+        return (string) $response->getBody();
     }
 
     protected function buildEndpoint($format)
     {
         return "surveys/$this->server_directory/$this->survey_id/datamap?format=$format";
     }
+
+    private function validateReturnFormat($format)
+    {
+        if (!in_array($format, self::RETURN_FORMATS)) {
+            $message = "Only the following return types are currently supported: implode(', ', self::RETURN_FORMATS)";
+            throw new InvalidReturnFormatException($message);
+        }
+    }
+
 }
