@@ -1,14 +1,15 @@
-#Decipher API
+
+##Decipher API
 
 This package provides a PHP wrapper for the FocusVision Decipher API, along with binding for using it in Laravel applications.
 
 #### Installation
-Install with composer
+Install with composer: 
+```bash 
+composer require mrdth/decipher-api
+```
 
-
-#### Usage
-
-##### In Laravel
+#### Usage In Laravel
 
 Add two new env vars:
 
@@ -17,7 +18,27 @@ Add two new env vars:
 
 The package will be auto-registered, and can be accessed via it's facade.
 
-##### As a standalone PHP Package
+All calls to the API via the wrapper should be carried out inside a try - catch block;
+The wrapper does not deal with any Exceptions thrown by the underlying Guzzle client.
+```php
+$directory = 'selfserve/99d';
+$survey_id = '12345';
+
+Decipher::setServerDirectory($directory)->setSurveyId($survey_id);
+
+try {
+    $survey_structure = Decipher::getSurveyStructure('json');
+  
+    // Do whatever with $survey object
+} catch (\GuzzleHttp\Exception\RequestException $e) {
+    echo 'Error making request, server responded: ' . $e->getCode();
+}
+
+```
+
+#
+
+#### Usage as a standalone PHP Package
 
 ```php
 use GuzzleHttp\Client;
