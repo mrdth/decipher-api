@@ -30,7 +30,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MrDth\\DecipherApi\\DecipherApiServiceProvider"
+                "MrDth\\DecipherApi\\DecipherServiceProvider"
             ],
             "aliases": {
                 "Decipher": "MrDth\\DecipherApi\\DecipherFacade"
