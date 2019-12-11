@@ -3,6 +3,7 @@
 namespace MrDth\DecipherApi;
 
 use Illuminate\Support\ServiceProvider;
+use MrDth\DecipherApi\Factories\Client;
 
 class DecipherServiceProvider extends ServiceProvider
 {
