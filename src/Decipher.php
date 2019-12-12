@@ -15,6 +15,7 @@ class Decipher
     protected $default_fields;
     protected $server_directory;
     protected $survey_id;
+    protected $condition;
 
 
     public function setServerDirectory(string $server_directory)
@@ -26,6 +27,12 @@ class Decipher
     public function setSurveyId(int $survey_id)
     {
         $this->survey_id = $survey_id;
+        return $this;
+    }
+
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
         return $this;
     }
 
@@ -45,11 +52,15 @@ class Decipher
         return (new SurveyList($this->client))->fetch();
     }
 
-    public function getSurveyData(array $fields, string $return_format)
+    public function getSurveyData(array $fields = ['all'], string $return_format = 'json')
     {
         $this->checkRequiredPropertiesExist();
 
         $client = new SurveyData($this->client, $this->server_directory, $this->survey_id);
+
+        if(isset($this->condition)) {
+            $client->setCondition($this->condition);
+        }
 
         return $client->get($this->prepareFields($fields), $return_format);
     }

@@ -24,10 +24,10 @@ The wrapper does not deal with any Exceptions thrown by the underlying Guzzle cl
 $directory = 'selfserve/99d';
 $survey_id = '12345';
 
-Decipher::setServerDirectory($directory)->setSurveyId($survey_id);
+\Decipher::setServerDirectory($directory)->setSurveyId($survey_id);
 
 try {
-    $survey_structure = Decipher::getSurveyStructure('json');
+    $survey_structure = \Decipher::getSurveyStructure('json');
   
     // Do whatever with $survey object
 } catch (\GuzzleHttp\Exception\RequestException $e) {
@@ -41,7 +41,7 @@ try {
 #### Usage as a standalone PHP Package
 
 ```php
-use GuzzleHttp\Client;
+use MrDth\DecipherApi\Factories\Client;
 use MrDth\DecipherApi\Decipher;
 
 $api_uri = 'https://v2.decipherinc.com/api/v1/';
@@ -76,5 +76,6 @@ try {
 - getSurveyList() - Get a list of all surveys available with the current API key.
 - setServerDirectory(string $directory) - Directory where your projects are stored on the decipher server
 - setSurveyId(int $id) - Set the ID of the current survey to work with.
+- setCondition(string $condition) - Condition required to retrieve the participant. This is a Python condition as if you would enter in survey logic or crosstabs. For example, “qualified and q3.r2” retrieves only participants that were qualified and answered q3 as r2.
 - getSurveyStructure(string $format) - Retrieve the structure of available questions for a survey, returning htem in the specified format.  Valid formats are: html, json, text, tab
-- getSurveyData(array $fields) - Retrieve the responses to the question IDs passed in $fields from Decipher.  Note: uuid & status fields will always be returned. To retrieve ALL questions, pass ['all'] 
+- getSurveyData(array $fields = ['all'], string $format = 'json') - Retrieve the responses to the question IDs passed in $fields from Decipher.  Note: uuid & status fields will always be returned. Any condition set using ::setCondition() will be applied 

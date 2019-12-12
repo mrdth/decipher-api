@@ -9,6 +9,7 @@ class SurveyData
     private $client;
     private $survey_id;
     private $server_directory;
+    private $condition;
 
     /**
      * Inject HTTP Client
@@ -20,12 +21,18 @@ class SurveyData
         $this->server_directory = $server_directory;
     }
 
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
+        return $this;
+    }
+
     public function get(array $fields, string $return_format)
     {
         $endpoint = $this->buildEndpoint($fields, $return_format);
 
         // As URLs have a max length, if the endpoint is large, defer to a POST instead
-        if (count($endpoint) > 800) {
+        if (strlen($endpoint) > 800) {
             return $this->post($fields, $return_format);
         }
 
@@ -36,13 +43,19 @@ class SurveyData
 
     public function post(array $fields, string $return_format)
     {
-        $response = $this->client->post("surveys/survey/data", [
+        $data = [
             'json' => [
                 'survey' => "$this->server_directory/$this->survey_id",
                 'fields' => $fields,
                 'format' => $return_format
             ]
-        ]);
+        ];
+
+        if (isset($this->condition)) {
+            $data['json']['cond'] = $this->condition;
+        }
+
+        $response = $this->client->post("surveys/survey/data", $data);
 
         return (string) $response->getBody();
     }
@@ -55,6 +68,12 @@ class SurveyData
             $endpoint .= '&fields=' . implode(',', $fields);
         }
 
+        if (isset($this->condition)) {
+            $endpoint .= '&cond=' . urlencode($this->condition);
+        }
+
         return $endpoint;
     }
+
+
 }
