@@ -24,7 +24,7 @@ class Decipher
         return $this;
     }
 
-    public function setSurveyId(int $survey_id)
+    public function setSurveyId(string $survey_id)
     {
         $this->survey_id = $survey_id;
         return $this;
