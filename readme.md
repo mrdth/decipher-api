@@ -1,5 +1,5 @@
 
-##Decipher API
+## Decipher API
 
 This package provides a PHP wrapper for the FocusVision Decipher API, along with binding for using it in Laravel applications.
 
