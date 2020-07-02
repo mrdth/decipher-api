@@ -5,6 +5,7 @@ namespace MrDth\DecipherApi;
 use MrDth\DecipherApi\Exceptions\ServerDirectoryNotSetException;
 use MrDth\DecipherApi\Exceptions\SurveyIdNotSetException;
 use MrDth\DecipherApi\Factories\Api\SurveyData;
+use MrDth\DecipherApi\Factories\Api\SurveyFile;
 use MrDth\DecipherApi\Factories\Api\SurveyList;
 use MrDth\DecipherApi\Factories\Api\SurveyStructure;
 use MrDth\DecipherApi\Factories\Client;
@@ -72,6 +73,15 @@ class Decipher
         $client = new SurveyStructure($this->client, $this->server_directory, $this->survey_id);
 
         return $client->fetch($format);
+    }
+
+    public function getSurveyFile($filename)
+    {
+        $this->checkRequiredPropertiesExist();
+
+        $client = new SurveyFile($this->client, $this->server_directory, $this->survey_id);
+
+        return $client->fetch($filename);
     }
 
     protected function prepareFields(array $fields)
