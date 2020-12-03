@@ -58,7 +58,7 @@ class Decipher
 
         $client = new SurveyData($this->client, $this->server_directory, $this->survey_id);
 
-        if(isset($this->condition)) {
+        if (isset($this->condition)) {
             $client->setCondition($this->condition);
         }
 
